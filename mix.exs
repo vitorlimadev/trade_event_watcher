@@ -7,8 +7,13 @@ defmodule TradeEventWatcher.MixProject do
       version: "0.1.0",
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      escript: escript()
     ]
+  end
+
+  def escript do
+    [main_module: TradeEventWatcher.CLI, embed_elixir: true]
   end
 
   def application do

@@ -19,7 +19,7 @@ defmodule TradeEventWatcher do
       Returns DOGE/USDT trade events from binance explicitly, other exchanges will be implemented in the future.
   """
   @spec start(first_coin :: binary(), second_coin :: binary(), exchange :: atom()) ::
-          {:ok, :new_stream_started} | {:error, :symbol_not_found}
+          {:ok, :new_stream_started} | {:ok, :stream_updated} | {:error, :symbol_not_found}
   def start(first_coin, second_coin, exchange \\ :binance) do
     streaming_server = stream_trade_events(first_coin, second_coin, exchange)
 
@@ -52,7 +52,7 @@ defmodule TradeEventWatcher do
   end
 
   @spec get_current_stream_process() :: pid() | :no_stream_started | {:error, :agent_not_started}
-  defp get_current_stream_process do
+  def get_current_stream_process do
     TradeEventWatcher.StartedStreamsWatcher.get()
   end
 
@@ -73,6 +73,8 @@ defmodule TradeEventWatcher do
         {:ok, :new_stream_started}
 
       _pid ->
+        TradeEventWatcher.stop()
+
         TradeEventWatcher.StartedStreamsWatcher.update(new_stream_pid)
 
         {:ok, :stream_updated}

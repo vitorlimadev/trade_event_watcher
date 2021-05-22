@@ -59,6 +59,12 @@ defmodule TradeEventWatcher.Exchanges.Binance do
       # buyer_market_maker: event["m"]
     }
 
-    IO.inspect(trade_event)
+    IO.puts("""
+      Symbol: #{trade_event.symbol}
+      Price: #{trade_event.price}
+      Quantity: #{trade_event.quantity}
+      Time: #{trade_event.trade_time}
+      ==================================
+    """)
   end
 end
