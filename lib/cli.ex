@@ -1,6 +1,7 @@
 defmodule TradeEventWatcher.CLI do
   def main(args) do
     IO.puts("Trade Event Watcher CLI - v0.1")
+    IO.puts("Starting logs in: #{inspect(DateTime.utc_now() |> DateTime.to_string())}\n\n")
 
     args
     |> parse_args()
@@ -27,7 +28,7 @@ defmodule TradeEventWatcher.CLI do
     case stream do
       {:ok, :new_stream_started} ->
         IO.puts("""
-          New stream started:
+        New stream started:
         """)
 
         IO.gets("")

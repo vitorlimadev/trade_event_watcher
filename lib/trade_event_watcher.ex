@@ -29,6 +29,12 @@ defmodule TradeEventWatcher do
     end
   end
 
+  @spec stream_trade_events(first_coin :: binary(), second_coin :: binary(), exchange :: atom()) ::
+          {:ok, pid} | {:error, :symbol_not_found}
+  defp stream_trade_events(first_coin, second_coin, :binance) do
+    Exchanges.Binance.stream_trade_events(first_coin, second_coin)
+  end
+
   @doc """
   Stops the current trade events stream.
   """
@@ -54,12 +60,6 @@ defmodule TradeEventWatcher do
   @spec get_current_stream_process() :: pid() | :no_stream_started | {:error, :agent_not_started}
   def get_current_stream_process do
     TradeEventWatcher.StartedStreamsWatcher.get()
-  end
-
-  @spec stream_trade_events(first_coin :: binary(), second_coin :: binary(), exchange :: atom()) ::
-          {:ok, pid} | {:error, :symbol_not_found}
-  defp stream_trade_events(first_coin, second_coin, :binance) do
-    Exchanges.Binance.stream_trade_events(first_coin, second_coin)
   end
 
   @spec start_or_update_agent(pid()) :: {:ok, :new_stream_started} | {:ok, :stream_updated}

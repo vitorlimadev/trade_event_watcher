@@ -60,11 +60,11 @@ defmodule TradeEventWatcher.Exchanges.Binance do
     }
 
     IO.puts("""
-      Symbol: #{trade_event.symbol}
-      Price: #{trade_event.price}
-      Quantity: #{trade_event.quantity}
-      Time: #{trade_event.trade_time}
-      ==================================
+    Symbol: #{trade_event.symbol}
+    Price: #{trade_event.price}
+    Quantity: #{trade_event.quantity}
+    Time: #{trade_event.trade_time}
+    ==================================
     """)
   end
 end
