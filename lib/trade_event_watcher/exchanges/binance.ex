@@ -1,14 +1,19 @@
 defmodule TradeEventWatcher.Exchanges.Binance do
-  @doc """
-  Binance's Websocket trade event streamer.
+  @moduledoc """
+  Binance's Exchange entity.
+  This module encapsulates one function to be used: stream_trade_events/2.
   """
-
   use WebSockex
 
   alias Binance, as: BinanceAPI
 
   @stream_endpoint "wss://stream.binance.com:9443/ws/"
 
+  @doc """
+  Starts Binance's Websocket trade event streamer.
+  """
+  @spec stream_trade_events(first_coin :: String.t(), second_coin :: String.t()) ::
+          {:ok, pid} | {:error, :symbol_not_found}
   def stream_trade_events(first_coin, second_coin) do
     with {:ok, uppercase_symbol} <-
            BinanceAPI.find_symbol(%BinanceAPI.TradePair{
@@ -16,11 +21,14 @@ defmodule TradeEventWatcher.Exchanges.Binance do
              to: second_coin
            }),
          symbol <- String.downcase(uppercase_symbol) do
-      WebSockex.start_link(
-        "#{@stream_endpoint}#{symbol}@trade",
-        __MODULE__,
-        []
-      )
+      {:ok, pid} =
+        WebSockex.start_link(
+          "#{@stream_endpoint}#{symbol}@trade",
+          __MODULE__,
+          []
+        )
+
+      Process.info(pid) |> IO.inspect()
     else
       {:error, :symbol_not_found} ->
         IO.puts("Invalid coin symbols. Please use valid coin symbols. Ex: \"BTC\" and \"USDT\".")
@@ -32,6 +40,10 @@ defmodule TradeEventWatcher.Exchanges.Binance do
     end
   end
 
+  @doc """
+  Used internally by WebSockex to display data.
+  Maps Binance's trade events to a readable console log.
+  """
   def handle_frame({_type, msg}, state) do
     case Jason.decode(msg) do
       {:ok, event} -> handle_event(event, state)
