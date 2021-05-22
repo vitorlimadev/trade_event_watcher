@@ -21,20 +21,12 @@ defmodule TradeEventWatcher.Exchanges.Binance do
              to: second_coin
            }),
          symbol <- String.downcase(uppercase_symbol) do
-      {:ok, pid} =
-        WebSockex.start_link(
-          "#{@stream_endpoint}#{symbol}@trade",
-          __MODULE__,
-          []
-        )
-
-      Process.info(pid) |> IO.inspect()
+      WebSockex.start(
+        "#{@stream_endpoint}#{symbol}@trade",
+        __MODULE__,
+        []
+      )
     else
-      {:error, :symbol_not_found} ->
-        IO.puts("Invalid coin symbols. Please use valid coin symbols. Ex: \"BTC\" and \"USDT\".")
-
-        {:error, :symbol_not_found}
-
       err ->
         err
     end
@@ -55,18 +47,18 @@ defmodule TradeEventWatcher.Exchanges.Binance do
 
   defp handle_event(%{"e" => "trade"} = event, _state) do
     trade_event = %TradeEventWatcher.Binance.TradeEvent{
-      event_type: event["e"],
-      event_time: event["E"],
+      # event_type: event["e"],
+      # event_time: event["E"],
       symbol: event["s"],
-      trade_id: event["t"],
+      # trade_id: event["t"],
       price: event["p"],
       quantity: event["q"],
-      buyer_order_id: event["b"],
-      seller_order_id: event["a"],
-      trade_time: event["T"],
-      buyer_market_maker: event["m"]
+      # buyer_order_id: event["b"],
+      # seller_order_id: event["a"],
+      trade_time: event["T"]
+      # buyer_market_maker: event["m"]
     }
 
-    IO.inspect(trade_event, label: "Trade event recieved")
+    IO.inspect(trade_event)
   end
 end

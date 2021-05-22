@@ -1,14 +1,14 @@
 defmodule TradeEventWatcher.Binance.TradeEvent do
   defstruct [
-    :event_type,
-    :event_time,
+    # :event_type,
+    # :event_time,
     :symbol,
-    :trade_id,
+    # :trade_id,
     :price,
     :quantity,
-    :buyer_order_id,
-    :seller_order_id,
-    :trade_time,
-    :buyer_market_maker
+    # :buyer_order_id,
+    # :seller_order_id,
+    :trade_time
+    # :buyer_market_maker
   ]
 end
