@@ -1,0 +1,30 @@
+Trade Event Watcher CLI - v0.1
+Starting logs in: "2021-05-22 18:19:35.409084Z"
+
+
+New stream started:
+
+Symbol: BTCBRL
+Price: 206354.00000000
+Quantity: 0.00072500
+Time: 1621707578187
+==================================
+
+Symbol: BTCBRL
+Price: 206353.00000000
+Quantity: 0.02157900
+Time: 1621707578229
+==================================
+
+Symbol: BTCBRL
+Price: 206258.00000000
+Quantity: 0.00012100
+Time: 1621707588750
+==================================
+
+Symbol: BTCBRL
+Price: 206318.00000000
+Quantity: 0.00038600
+Time: 1621707594439
+==================================
+
